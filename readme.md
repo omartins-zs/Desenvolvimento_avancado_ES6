@@ -1,5 +1,11 @@
 # Curso Desenvolvimento avançado com JavaScript ES6
 
+## Usado para estudo
+
+- Autor: Celso Henrique da Silva
+- Organizaçao do README.md e meritos do projeto a [Daniel Negrisoli Batista](https://www.linkedin.com/in/daniel-negrisoli-batista);
+- Projeto Clonado do perfil do GitHub [danielnegrisolibatista](https://github.com/danielnegrisolibatista);
+
 Funções avançadas do ES6
 
 ## Módulo I - Funções avançadas do ES6
