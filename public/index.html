@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel Interativo | Desenvolvimento Avançado com JavaScript ES6</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --primary: #eab308;
+      --accent: #38bdf8;
+      --success: #22c55e;
+      --danger: #ef4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .badge {
+      background: var(--primary);
+      color: #0f172a;
+      font-weight: 800;
+      padding: 0.45rem 0.7rem;
+      border-radius: 8px;
+    }
+    .user-bar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .role-pill {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .btn {
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #0f172a;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn:hover { border-color: var(--primary); }
+    .btn-primary {
+      background: var(--primary);
+      color: #0f172a;
+      border-color: var(--primary);
+    }
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.25rem;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.35rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .card h2 {
+      font-size: 1.05rem;
+      color: var(--primary);
+      margin-bottom: 0.35rem;
+    }
+    .card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .inputs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .inputs input, .inputs select {
+      flex: 1;
+      min-width: 90px;
+      padding: 0.55rem 0.7rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #0f172a;
+      color: var(--text);
+    }
+    .console-section {
+      max-width: 1200px;
+      margin: 0 auto 2.5rem;
+      padding: 0 1.5rem;
+    }
+    .console-box {
+      background: #090d16;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem;
+      font-family: 'Cascadia Code', Consolas, monospace;
+      font-size: 0.85rem;
+      color: #a7f3d0;
+      white-space: pre-wrap;
+      min-height: 180px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="badge">ES6+</span>
+      <div>
+        <strong>Desenvolvimento Avançado com JavaScript ES6</strong>
+        <div style="font-size:0.8rem;color:var(--muted)">Workbench Interativo & Suíte TDD/BDD (Mocha, Chai, Sinon)</div>
+      </div>
+    </div>
+    <div class="user-bar">
+      <div id="userInfo" style="text-align:right;font-size:0.85rem;">Carregando sessão...</div>
+      <span id="userRole" class="role-pill">...</span>
+      <button class="btn" onclick="logout()">Sair</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="card">
+      <div>
+        <h2>1. Soma Assíncrona & Arrow Functions</h2>
+        <p>Executa <code>Math.sum(a, b, callback)</code> validando escopo léxico e retorno assíncrono.</p>
+      </div>
+      <div class="inputs">
+        <input type="number" id="sumA" value="5" placeholder="Valor A" />
+        <input type="number" id="sumB" value="5" placeholder="Valor B" />
+      </div>
+      <button class="btn btn-primary" onclick="runFeature('sum', { a: sumA.value, b: sumB.value })">Executar Math.sum</button>
+    </div>
+
+    <div class="card">
+      <div>
+        <h2>2. Default Function Arguments</h2>
+        <p>Executa <code>Math.multiply(a, b = 1)</code> demonstrando avaliação padrão quando o segundo parâmetro é omitido.</p>
+      </div>
+      <div class="inputs">
+        <input type="number" id="multA" value="7" placeholder="Valor A" />
+        <input type="number" id="multB" placeholder="Valor B (opcional, padrão=1)" />
+      </div>
+      <button class="btn btn-primary" onclick="runFeature('multiply', { a: multA.value, b: multB.value })">Executar Math.multiply</button>
+    </div>
+
+    <div class="card">
+      <div>
+        <h2>3. Rest & Spread Operator</h2>
+        <p>Soma múltiplos parâmetros ilimitados utilizando <code>...args</code> e <code>Array.prototype.reduce</code>.</p>
+      </div>
+      <div class="inputs">
+        <input type="text" id="restValues" value="5, 5, 10, 20, 15" placeholder="Ex: 5, 10, 15" />
+      </div>
+      <button class="btn btn-primary" onclick="runFeature('rest', { values: restValues.value })">Executar Math.sumRest</button>
+    </div>
+
+    <div class="card">
+      <div>
+        <h2>4. Generators & Symbol.iterator</h2>
+        <p>Itera sob demanda com <code>*numberGenerator(start, count, step)</code> usando <code>yield</code>.</p>
+      </div>
+      <div class="inputs">
+        <input type="number" id="genStart" value="10" placeholder="Início" />
+        <input type="number" id="genCount" value="4" placeholder="Qtd" />
+        <input type="number" id="genStep" value="5" placeholder="Passo" />
+      </div>
+      <button class="btn btn-primary" onclick="runFeature('generator', { start: genStart.value, count: genCount.value, step: genStep.value })">Gerar Sequência (yield)</button>
+    </div>
+
+    <div class="card">
+      <div>
+        <h2>5. Promises & Async/Await</h2>
+        <p>Processamento assíncrono não-bloqueante com tratamento de exceções via <code>CustomError</code>.</p>
+      </div>
+      <div class="inputs">
+        <input type="number" id="promA" value="8" />
+        <input type="number" id="promB" value="7" />
+        <select id="promOp">
+          <option value="multiply">Multiplicar</option>
+          <option value="sum">Somar</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="runFeature('promise', { a: Number(promA.value), b: Number(promB.value), operation: promOp.value })">Executar Async/Await</button>
+    </div>
+
+    <div class="card">
+      <div>
+        <h2>6. Suíte de Testes TDD / BDD</h2>
+        <p>Executa todas as especificações da classe <code>Math</code> (Callbacks, Spies, Rest, Generators e Promises).</p>
+      </div>
+      <button class="btn btn-primary" onclick="runFeature('tests', {})">Rodar Suíte Completa</button>
+    </div>
+  </main>
+
+  <section class="console-section">
+    <h3 style="margin-bottom:0.6rem;font-size:0.95rem;color:var(--muted);">Saída em Tempo Real (Console JSON / TDD Report)</h3>
+    <div id="outputConsole" class="console-box">// Selecione qualquer módulo ES6+ acima para inspecionar o resultado em tempo real...</div>
+  </section>
+
+  <script>
+    const outputConsole = document.getElementById('outputConsole');
+
+    async function checkSession() {
+      const token = localStorage.getItem('es6_token') || '';
+      const res = await fetch('/api/auth/session', {
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      });
+      const data = await res.json();
+      if (!data.authenticated) {
+        window.location.href = '/login';
+        return;
+      }
+      document.getElementById('userInfo').innerHTML = `<strong>${data.user.name}</strong><br/><span style="color:var(--muted)">${data.user.email}</span>`;
+      document.getElementById('userRole').textContent = data.user.role;
+    }
+
+    async function runFeature(feature, params) {
+      outputConsole.textContent = '// Executando operação no servidor Node.js ES6+...';
+      const token = localStorage.getItem('es6_token') || '';
+      const res = await fetch('/api/es6/execute', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify({ feature, params })
+      });
+      if (res.status === 401) {
+        window.location.href = '/login';
+        return;
+      }
+      const data = await res.json();
+      outputConsole.textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function logout() {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      localStorage.removeItem('es6_token');
+      window.location.href = '/login';
+    }
+
+    checkSession();
+  </script>
+</body>
+</html>

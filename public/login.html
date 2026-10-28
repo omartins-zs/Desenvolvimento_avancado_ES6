@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | JavaScript ES6+ Avançado</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --primary: #eab308;
+      --primary-hover: #ca8a04;
+      --accent: #38bdf8;
+      --danger: #ef4444;
+      --success: #22c55e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at top right, #1e293b, #0f172a 70%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .login-wrapper {
+      width: 100%;
+      max-width: 480px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+    .brand-badge {
+      background: var(--primary);
+      color: #0f172a;
+      font-weight: 800;
+      font-size: 1.2rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 10px;
+    }
+    .brand h1 {
+      font-size: 1.25rem;
+      line-height: 1.3;
+    }
+    .brand p {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    input {
+      width: 100%;
+      padding: 0.75rem 0.9rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #0f172a;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+    input:focus {
+      outline: 2px solid var(--primary);
+      border-color: transparent;
+    }
+    .btn-submit {
+      width: 100%;
+      padding: 0.85rem;
+      border: none;
+      border-radius: 10px;
+      background: var(--primary);
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+    .btn-submit:hover {
+      background: var(--primary-hover);
+    }
+    .alert {
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .alert.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid var(--danger);
+      color: #fca5a5;
+    }
+    .demo-section {
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+    .demo-section h2 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .demo-grid {
+      display: grid;
+      gap: 0.6rem;
+    }
+    .demo-btn {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+    }
+    .demo-btn:hover {
+      border-color: var(--accent);
+      background: rgba(56, 189, 248, 0.08);
+    }
+    .demo-role {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-wrapper">
+    <div class="brand">
+      <div class="brand-badge">ES6+</div>
+      <div>
+        <h1>Laboratório JavaScript ES6+</h1>
+        <p>TDD, BDD, Promises, Generators & EventEmitter</p>
+      </div>
+    </div>
+
+    <div id="alertBox" class="alert"></div>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">E-mail de Acesso</label>
+        <input type="email" id="email" name="email" placeholder="admin@es6.dev" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input type="password" id="password" name="password" placeholder="••••••••••••" required />
+      </div>
+      <button type="submit" class="btn-submit">Entrar no Painel ES6+</button>
+    </form>
+
+    <div class="demo-section">
+      <h2>Acesso Rápido (1 Clique - Ambiente de Testes)</h2>
+      <div class="demo-grid">
+        <button type="button" class="demo-btn" onclick="quickLogin('admin@es6.dev', 'Password@123')">
+          <div>
+            <strong>Administrador ES6</strong>
+            <div style="font-size:0.78rem;color:var(--muted)">admin@es6.dev</div>
+          </div>
+          <span class="demo-role">Admin / Tech Lead</span>
+        </button>
+        <button type="button" class="demo-btn" onclick="quickLogin('instrutor@es6.dev', 'Password@123')">
+          <div>
+            <strong>Instrutor Celso / DIO</strong>
+            <div style="font-size:0.78rem;color:var(--muted)">instrutor@es6.dev</div>
+          </div>
+          <span class="demo-role">Instrutor</span>
+        </button>
+        <button type="button" class="demo-btn" onclick="quickLogin('dev@es6.dev', 'Password@123')">
+          <div>
+            <strong>Desenvolvedor Aluno</strong>
+            <div style="font-size:0.78rem;color:var(--muted)">dev@es6.dev</div>
+          </div>
+          <span class="demo-role">Developer</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const alertBox = document.getElementById('alertBox');
+
+    async function performLogin(email, password) {
+      alertBox.className = 'alert';
+      alertBox.textContent = '';
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.authenticated) {
+          throw new Error(data.message || 'Falha na autenticação.');
+        }
+        localStorage.setItem('es6_token', data.token);
+        window.location.href = '/';
+      } catch (err) {
+        alertBox.className = 'alert error';
+        alertBox.textContent = err.message;
+      }
+    }
+
+    function quickLogin(email, password) {
+      document.getElementById('email').value = email;
+      document.getElementById('password').value = password;
+      performLogin(email, password);
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      performLogin(
+        document.getElementById('email').value,
+        document.getElementById('password').value
+      );
+    });
+  </script>
+</body>
+</html>
