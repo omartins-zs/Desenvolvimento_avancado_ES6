@@ -1,101 +1,118 @@
 const assert = require('assert');
 const Math = require('../src/math.js');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const sinon = require('sinon');
 
 let value = 0;
 
-describe('Math class', function() {
-  // hooks
-  // permitir reiniciar uma variável antes de cada teste
-  beforeEach(function() {
+describe('Math class & ES6+ Advanced Features', function () {
+  beforeEach(function () {
     value = 0;
-  })
+  });
 
-  // para validação de código assincrono, adicionamos o done no it para aguardar o processamento.
-  // mocha não recomenda utilizar arrow functions e sim fuction para ter o controle de escopo.
-  it('Sum two numbers', function(done) {
+  it('Sum two numbers asynchronously using callback', function (done) {
     const math = new Math();
-
-    // é possível alterar o timeout do mocha, o padrão é 2000ms.
     this.timeout(3000);
 
     value = 5;
 
-    math.sum(value, 5, value => {
-      // assert
-      // assert.equal(value, 10);
-
-      // chai
-      expect(value).to.equal(10);
+    math.sum(value, 5, (result) => {
+      assert.strictEqual(result, 10);
+      expect(result).to.equal(10);
       done();
     });
   });
 
-  // mocha permite deixar anotado os testes futuros
-  // it('Multiply two numbers');
-  
-  // mocha executa apenas esse teste
-  // it.only('Multiply two numbers', function() {});
-
-  // mocha desconsidera esse teste
-  // it.skip('Multiply two numbers', function() {});
-
-  it('Multiply two numbers', function() {
+  it('Multiply two numbers with default arguments', function () {
     const math = new Math();
-
-    // é possível alterar o timeout do mocha, o padrão é 2000ms.
     this.timeout(5000);
-    // assert
-    // assert.equal(math.multiply(value, 5), 0);
 
-    // chai
     expect(math.multiply(value, 5)).to.equal(0);
+    expect(math.multiply(7)).to.equal(7);
+    expect(math.multiply(6, 4)).to.equal(24);
   });
 
-  // chai comparando propriedades de objetos
-  it('Compare property name of objects', function() {
+  it('Compare property name of objects with Chai', function () {
     const obj = {
-      name: 'Daniel'
+      name: 'Daniel',
     };
 
-    // chai
-    expect(obj)
-      .to.have.property('name')
-      .equal('Daniel');
+    expect(obj).to.have.property('name').equal('Daniel');
   });
 
-  // chai comparando objetos
-  it('Compare objects', function() {
+  it('Compare objects deeply with Chai', function () {
     const obj = {
-      name: 'Daniel'
+      name: 'Daniel',
     };
 
     const obj2 = {
-      name: 'Daniel'
+      name: 'Daniel',
     };
 
-    // chai
     expect(obj).to.deep.equal(obj2);
   });
 
-  // sinon para mockar função
-  it.only('Calls req with sum and index values', function() {
+  it('Calls res.load with sum and index values using Sinon spy', function () {
     const req = {};
     const res = {
-      // função espiã que diz se a função da classe foi ou não executada 
-      load: sinon.spy()
+      load: sinon.spy(),
     };
     const math = new Math();
 
     math.printSum(req, res, 5, 5);
 
-    // chai e sinon
-    // verifica se função foi chamada
     expect(res.load.calledOnce).to.be.true;
+    expect(res.load.args[0][0]).to.equal('index');
+    expect(res.load.args[0][1]).to.equal(10);
+  });
 
-    // chai e sinon
-    // verifica se o segundo argumento é o resultado da soma dos dois valores enviados
-    // expect(res.load.args[0][1]).to.equal(10);
+  it('Sum unlimited numbers using Rest Operator (...args)', function () {
+    const math = new Math();
+    const total = math.sumRest(5, 5, 10, 20, 15);
+
+    expect(total).to.equal(55);
+  });
+
+  it('Merge objects using Spread Operator and Destructuring', function () {
+    const math = new Math();
+    const merged = math.mergeObjects({ course: 'ES6' }, { level: 'Avançado' });
+
+    expect(merged).to.include({
+      course: 'ES6',
+      level: 'Avançado',
+      mergedAt: 'ES6-Spread',
+    });
+    expect(math.sumDestructured({ a: 12, b: 8 })).to.equal(20);
+  });
+
+  it('Generate sequence of numbers using ES6 Generators (yield)', function () {
+    const math = new Math();
+    const gen = math.numberGenerator(10, 4, 5);
+    const values = [...gen];
+
+    expect(values).to.deep.equal([10, 15, 20, 25]);
+  });
+
+  it('Resolve async calculation using Promises and Async/Await', async function () {
+    const math = new Math();
+    const response = await math.calculateAsync(8, 7, 'multiply');
+
+    expect(response).to.deep.equal({
+      operation: 'multiply',
+      a: 8,
+      b: 7,
+      result: 56,
+      status: 'fulfilled',
+    });
+  });
+
+  it('Emit events with EventEmitter (Users class) and handle CustomError', function (done) {
+    const users = new Math.Users();
+    users.once('User logged', (payload) => {
+      expect(payload).to.have.property('user', 'Gabriel Martins');
+      done();
+    });
+
+    users.userLogged({ user: 'Gabriel Martins' });
   });
 });
